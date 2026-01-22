@@ -1,14 +1,13 @@
 import React from "react";
+import shoes from "../data/data";
 
-function ShoeList({ shoes, add }) {
+function ShoeList({ onAdd }) {
   return (
     <div>
-      <h2>Shoes</h2>
-      {shoes.map((s) => (
-        <div key={s.id}>
-          <img src={s.img} alt={s.name} />
-          <p>{s.name} ₹{s.price}</p>
-          <button onClick={() => add(s)}>Add</button>
+      {shoes.map(shoe => (
+        <div key={shoe.id}>
+          <p>{shoe.name} - ₹{shoe.price}</p>
+          <button onClick={() => onAdd(shoe)}>Add</button>
         </div>
       ))}
     </div>

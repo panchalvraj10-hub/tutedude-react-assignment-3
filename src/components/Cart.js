@@ -1,24 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 
-function Cart({ cart, add, minus }) {
-  let total = 0;
-  cart.forEach(i => total += i.price * i.qty);
+function Cart({ data }) {
+  const [qty, setQty] = useState(0);
 
   return (
     <div>
       <h2>Cart</h2>
 
-      {cart.map((i) => (
-        <div key={i.id}>
-          <img src={i.img} alt={i.name} />
-          <p>{i.name}</p>
-          <button onClick={() => minus(i.id)}>-</button>
-          {i.qty}
-          <button onClick={() => add(i)}>+</button>
-        </div>
-      ))}
+      {!data && <p>Cart is empty</p>}
 
-      <h3>Total: ₹{total}</h3>
+      {data && (
+        <div>
+          <p>
+            {data.name} - ₹{data.price}
+          </p>
+          <button onClick={() => qty > 0 && setQty(qty - 1)}>-</button>
+          <span> {qty} </span>
+          <button onClick={() => setQty(qty + 1)}>+</button>
+        </div>
+      )}
     </div>
   );
 }
