@@ -1,23 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import shoes from "./data/data";
+import ShoeList from "./components/ShoeList";
+import Cart from "./components/Cart";
 
 function App() {
+  const [cart, setCart] = useState([]);
+
+  const add = (shoe) => {
+    const item = cart.find(i => i.id === shoe.id);
+    item
+      ? setCart(cart.map(i => i.id === shoe.id ? { ...i, qty: i.qty + 1 } : i))
+      : setCart([...cart, { ...shoe, qty: 1 }]);
+  };
+
+  const minus = (id) => {
+    const item = cart.find(i => i.id === id);
+    item.qty === 1
+      ? setCart(cart.filter(i => i.id !== id))
+      : setCart(cart.map(i => i.id === id ? { ...i, qty: i.qty - 1 } : i));
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Shoe Store</h1>
+      <ShoeList shoes={shoes} add={add} />
+      <Cart cart={cart} add={add} minus={minus} />
     </div>
   );
 }
